@@ -1,0 +1,30 @@
+TODO list for smartmontools:
+
+Copyright (C) 2002 Bruce Allen <smartmontools-support@lists.sourceforge.net>
+
+$Id: TODO,v 1.4 2002/10/11 09:20:32 ballen4705 Exp $
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2, or (at your option) any later
+version.
+
+You should have received a copy of the GNU General Public License (for
+example COPYING); if not, write to the Free Software Foundation, Inc., 675
+Mass Ave, Cambridge, MA 02139, USA.
+
+
+Testing
+-------
+Test with SCSI devices (I can't do it -- Bruce)
+
+Extensions
+----------
+Produce version for ATA/ATAPI-6
+Produce version for ATA/ATAPI-7
+
+Modifications
+-------------
+Command line option to specify devices to look for in smartd startup
+
+Command line option to divide disk power-on lifetime by 60 if raw data is stored in minutes not hours (Hitachi!)

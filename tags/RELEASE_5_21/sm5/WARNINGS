@@ -1,0 +1,43 @@
+$Id: WARNINGS,v 1.13 2003/10/14 13:48:40 ballen4705 Exp $
+
+The following are controllers/drives where there have been reports of
+serious problems (eg system lockup):
+
+
+SYSTEM:   Intel 875WP1-E motherboard with SATA drives on motherboard's SATA ports
+PROBLEM:  smartd makes NTP time drift
+REPORTER: nohez@cmie.com
+LINK:     http://groups.google.de/groups?hl=en&lr=&ie=UTF-8&oe=UTF-8&safe=off&selm=Pine.LNX.4.33.0310111545530.1047-100000%40venus.cmie.ernet.in.lucky.linux.kernel
+NOTE:     When using SATA disks, linux kernel k_smp-2.4.21-108 (SMP because
+          of hyper-threading) and xntp-4.1.1-177, the server time went
+          out of sync with system time.  Problem goes away when SATA
+          disks removed.
+
+
+SYSTEM:   Dell servers using AACRAID (SCSI)
+PROBLEM:  Locked up, needed to be rebooted
+REPORTER: drew@eastvan.bc.ca
+LINK:     http://sourceforge.net/mailarchive/forum.php?thread_id=1311313&forum_id=12495
+
+
+SYSTEM:   Box with Promise 20265 IDE-controller (pdc202xx-driver) and > 2.4.18 kernel with ide-taskfile support
+PROBLEM:  Smartctl locks system solid when used on /dev/hd[ef].
+REPORTER: Georg Acher <acher@in.tum.de>
+LINK:     http://sourceforge.net/mailarchive/forum.php?thread_id=1457979&forum_id=12495
+NOTE:     Lockup doesn't happen with 2.4.18 kernel, and doesn't affect /dev/hd[a-d]
+          This appears to be a problem with the pdc202xx-driver and has been reported
+          to the pcdx maintainers.  If you enable the the Promise-BIOS (ATA100-BIOS) then
+          everything will work fine.  But if you disable it, then the machine will hang.
+
+
+SYSTEM:   Box with Promise 20262 IDE-controller
+PROBLEM:  Smartctl locks system solid
+REPORTER: Ben Low <ben@bdlow.net>
+LINK:     http://sourceforge.net/mailarchive/message.php?msg_id=5074201
+NOTE:     Similar to previous report: Promise Ultra66 2-port card (20262) which, with
+          linux 2.4.20, suffers from the lockups reported above.  But it was
+          impossible to enable the Promiste BIOS.  A kernel patch is referenced
+          to fix the problem.
+
+
+

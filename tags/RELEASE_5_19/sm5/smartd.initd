@@ -1,0 +1,92 @@
+#!/bin/bash
+# chkconfig: 2345 40 40
+# smartmontools init file for smartd
+#
+# description: Self Monitoring and Reporting Technology (SMART) Daemon
+#
+# processname: smartd 
+#
+# $Id: smartd.initd,v 1.9 2003/10/02 22:48:17 ballen4705 Exp $
+#
+# Copyright (C) 2002-3 Bruce Allen <smartmontools-support@lists.sourceforge.net>
+# 
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2, or (at your option) any later
+# version.
+# 
+# You should have received a copy of the GNU General Public License (for
+# example COPYING); if not, write to the Free Software Foundation, Inc., 675
+# Mass Ave, Cambridge, MA 02139, USA.
+#
+# This code was originally developed as a Senior Thesis by Michael Cornwell
+# at the Concurrent Systems Laboratory (now part of the Storage Systems
+# Research Center), Jack Baskin School of Engineering, University of
+# California, Santa Cruz. http://ssrc.soe.ucsc.edu/.
+#
+
+report_unsupported () {
+    echo "Currently the smartmontools package has no init script for this" $1 "linux distribution".
+    echo "If you can provide one, please contact smartmontools-support@lists.sourceforge.net"
+    echo "and we will inculde it in future distributions of the package."
+    exit 1
+}
+
+# Red Hat
+if [ -f /etc/redhat-release ] ; then
+
+# source function library
+. /etc/rc.d/init.d/functions
+
+    case "$1" in
+	start)
+	    echo -n "Starting smartd: "
+	    daemon /usr/sbin/smartd
+	    touch /var/lock/subsys/smartd
+	    echo
+	    ;;
+	stop)
+	    echo -n "Shutting down smartd: "
+	    killproc smartd
+	    rm -f /var/lock/subsys/smartd
+	    echo
+	    ;;
+	restart)
+	    $0 stop
+	    $0 start
+	    ;;
+	status)
+	    status smartd
+	    ;;
+	*)
+	    echo "Usage: smartd {start|stop|restart|status}"
+	    exit 1
+    esac
+    
+    exit 0
+
+elif [ -f /etc/slackware-release ] ; then
+    if [ -x /usr/sbin/smartd ]; then
+	/usr/sbin/smartd
+    fi
+    exit 0
+
+# add scripts for other distributions HERE, using elif...
+elif [ -f /etc/environment.corel ] ; then
+    report_unsupported "COREL"
+
+elif [ -f /etc/debian_version ] ; then
+    report_unsupported "DEBIAN"
+
+elif [ -f /etc/mandrake-release ] ; then
+    report_unsupported "MANDRAKE"
+
+elif [ -f /etc/SuSE-release  ] ; then
+    report_unsupported "SUSE"
+
+elif [ -f /etc/turbolinux-release  ] ; then
+    report_unsupported "TURBOLINUX"
+
+else
+    report_unsupported "UNKNOWN"
+fi

@@ -1,0 +1,63 @@
+#
+# $Id: configure.in,v 1.16 2003/10/03 01:37:13 ballen4705 Exp $
+#
+dnl Process this file with autoconf to produce a configure script.
+AC_PREREQ(2.50)
+AC_INIT(smartmontools, 5.19, smartmontools-support@lists.sourceforge.net)
+AC_CONFIG_SRCDIR(smartctl.c)
+
+smartmontools_configure_date=`date -u +"%Y/%m/%d %T %Z"`
+smartmontools_cvs_tag=`echo '$Id: configure.in,v 1.16 2003/10/03 01:37:13 ballen4705 Exp $'`
+
+AC_DEFINE_UNQUOTED(SMARTMONTOOLS_CONFIGURE_ARGS, "$ac_configure_args",            [smartmontools Configure Arguments])
+AC_DEFINE_UNQUOTED(SMARTMONTOOLS_CONFIGURE_DATE, "$smartmontools_configure_date", [smartmontools Configure Date])
+AC_DEFINE_UNQUOTED(CONFIG_H_CVSID,               "$smartmontools_cvs_tag",        [smartmontools CVS Tag])
+
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE
+AM_MAINTAINER_MODE
+
+AC_LANG_C
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_INSTALL
+
+dnl Checks for libraries.
+
+dnl Checks for header files.
+AC_CHECK_HEADER([getopt.h])
+dnl AC_CHECK_HEADER([linux/hdreg.h],, [AC_MSG_ERROR([Need linux/hdreg.h])])
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+
+dnl Checks for library functions.
+AC_CHECK_FUNCS([getopt])
+AC_CHECK_FUNCS([getopt_long])
+
+AC_SUBST(CFLAGS)
+AC_SUBST(CPPFLAGS)
+AC_SUBST(LDFLAGS)
+
+AC_PREFIX_DEFAULT(['/usr'])
+AC_SUBST([exampledir], ['${docdir}/examplescripts'])
+
+AC_ARG_WITH(initscriptdir,[AC_HELP_STRING([--with-initscriptdir=dir],[Location of init scripts (default is ${sysconfdir}/rc.d/init.d)])],[initddir="$withval"],[initddir='${sysconfdir}/rc.d/init.d'])
+AC_SUBST(initddir)
+
+AC_ARG_WITH(docdir,[AC_HELP_STRING([--with-docdir=dir],[Location of documentation (default is ${prefix}/share/doc/smartmontools-5.X)])],[docdir="$withval"],[docdir='${prefix}/share/doc/${PACKAGE}-${VERSION}'])
+AC_SUBST(docdir)
+
+if test "$prefix" = "NONE"; then
+    dnl no prefix and no sysconfdir, so default to /etc
+    if test "$sysconfdir" = '${prefix}/etc'; then
+        AC_SUBST([sysconfdir], ['/etc'])
+    fi
+    dnl no prefix and no mandir, so use ${prefix}/share/man as default
+    if test "$mandir" = '${prefix}/man'; then
+    	AC_SUBST([mandir], ['${prefix}/share/man'])
+    fi
+fi
+
+AC_SUBST(releaseversion,['${PACKAGE}-${VERSION}'])
+
+AC_OUTPUT(Makefile examplescripts/Makefile)

@@ -1,0 +1,67 @@
+TODO list for smartmontools:
+
+Home page of code is: http://smartmontools.sourceforge.net
+
+Copyright (C) 2002 Bruce Allen <smartmontools-support@lists.sourceforge.net>
+
+$Id: TODO,v 1.15 2002/10/25 14:23:40 ballen4705 Exp $
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2, or (at your option) any later
+version.
+
+You should have received a copy of the GNU General Public License (for
+example COPYING); if not, write to the Free Software Foundation, Inc., 675
+Mass Ave, Cambridge, MA 02139, USA.
+
+This code was originally developed as a Senior Thesis by Michael Cornwell
+at the Concurrent Systems Laboratory (now part of the Storage Systems
+Research Center), Jack Baskin School of Engineering, University of
+California, Santa Cruz. http://ssrc.soe.ucsc.edu/.
+
+
+Testing
+-------
+Test with SCSI devices (I can't do it -- Bruce)
+
+Extensions
+----------
+Produce version for ATA/ATAPI-6 (support for extended error logs)
+
+Produce version for ATA/ATAPI-7
+
+Modifications
+-------------
+
+Change smartd so that it also monitors usage as well as prefail attributes for failure
+or changes.  Make this a command line option
+
+Perhaps change smartd to look in /proc/ide and /proc/scsi to see what exists? If something
+doesn't exit then don't try to open it?
+
+Currently smartd looks at attribute values and thresholds, then prints out if there is an
+error condition.  Make it also look at the smart status, if that is enabled and working and
+do that test as well.  Perhaps also see if the number of device errors has changed.
+
+Change smartd so that it monitors the ATA disk error log, and if the number of errors changes,
+log an entry..
+
+Perhaps modify the -q option (quiet mode) so that it only warns of ATA errors if they have (say)
+taken place in the last 168 hours (week).
+
+Change input command line from using current command line format
+(getopt) to getopt_long() for long input options.  This will be
+helpful in adding device specific options.
+
+Command line option to specify devices to look for in smartd startup
+
+Print flags meanings in Vendor Attribute list -- not hex value --
+
+Fixes
+-----
+
+Fix lots of syntax like if (a != 0)
+
+Pass pointer to big structures like "device" and smartval, not the
+whole 2kB of data!
